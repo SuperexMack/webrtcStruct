@@ -57,7 +57,12 @@ export default function(){
 
     return(
         <>
-        <button className="text-white font-bold text-[30px]" onClick={sendMessageOtheSide}>Sender</button>
+        <div className="w-full justify-center h-auto p-3 flex">
+        <h1 className="mt-7 items-center text-[30px] font-bold">Sender's side</h1>
+        </div>
+        <div className="flex  w-full h-screen items-center justify-center flex-col space-y-8">
+        <button className="text-white border-2 p-2 border-white rounded-lg font-bold text-[30px]" onClick={sendMessageOtheSide}>Send Video</button>
+        </div>
         </>
     )
 }

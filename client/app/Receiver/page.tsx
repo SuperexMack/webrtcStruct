@@ -47,8 +47,9 @@ export default function(){
 
     return(
         <>
-        <div className="flex items-center justify-center">
-        <div className="w-full h-screen object-contain">
+        <div className="flex  flex-col space-y-5 items-center justify-center">
+        <h1 className="mt-7 text-[30px] font-bold">Receiver's side</h1>
+        <div className="w-[500px] h-[500px] object-contain">
           <video
             ref={videoRef}
             autoPlay
