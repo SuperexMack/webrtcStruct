@@ -32,6 +32,11 @@ export default function(){
 
     }
 
+    const caller =  async()=>{
+       const stream = await navigator.mediaDevices.getUserMedia({audio:true,video:true})
+
+       stream.getTracks().forEach((track:any)=>pc.addTrack(track,stream))
+
 
         pc.ontrack = (event)=>{
           if(videoRef.current){
@@ -39,6 +44,10 @@ export default function(){
             videoRef.current.srcObject = event.streams[0]
           }
         }
+    }
+
+    caller()
+
     },[])
 
     

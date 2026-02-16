@@ -6,6 +6,7 @@ export default function(){
 
 
     const socket = useRef<WebSocket|null>(null)
+    const videoRef = useRef<HTMLVideoElement>(null)
 
     useEffect(()=>{
       
@@ -50,6 +51,13 @@ export default function(){
        stream.getTracks().forEach((track:any)=>pc.addTrack(track,stream))
 
        alert("Video sended")
+
+       pc.ontrack = (event)=>{
+          if(videoRef.current){
+            console.log("We are getting the video")
+            videoRef.current.srcObject = event.streams[0]
+          }
+        }
        
 
     }
@@ -62,6 +70,15 @@ export default function(){
         </div>
         <div className="flex  w-full h-screen items-center justify-center flex-col space-y-8">
         <button className="text-white border-2 p-2 border-white rounded-lg font-bold text-[30px]" onClick={sendMessageOtheSide}>Send Video</button>
+        <div className="w-[500px] h-[500px] object-contain">
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            className="w-full h-full"
+          ></video>
+        </div>
         </div>
         </>
     )
