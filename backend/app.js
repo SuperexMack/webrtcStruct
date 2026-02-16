@@ -4,44 +4,59 @@ const PORT = 9000
 
 const wss = new WebSocketServer({port:PORT})
 
-let senderSide = null
-let recSide = null
+
+let rooms = {}
+
+// let senderSide = null
+// let recSide = null
 
 wss.on("connection",(ws)=>{
     ws.on("message",(data)=>{
        console.log("Setted")
        let message = JSON.parse(data);
        if(message.msg === "SENDER"){
-        console.log("SENDER")
-        senderSide = ws
+         if(!rooms[message.roomId]){
+          console.log("SENDER ARRIVED")
+          rooms[message.roomId] = []
+         }
+          rooms[message.roomId][0] = ws
+          // rooms[message.roomId] = {ws:ws,user:"SENDER"}
+          ws.send(JSON.stringify({msg:"SENDER",roomId:message.roomId}))
+         
+         console.log("SENDER Added")
        }
        else if(message.msg === "REMOTE"){
-        console.log("REMOTE")
-        recSide = ws
+        console.log("REMOTE User arrived")
+        if (!rooms[message.roomId]) rooms[message.roomId] = []
+        
+        rooms[message.roomId][1] = ws
+        ws.send(JSON.stringify({msg:"REMOTE",roomId:message.roomId}))
+        
        }
        else if(message.msg === "ice-candidate"){
           console.log("ice candidate")
-          if(ws === senderSide){
+          if(!rooms[message.roomId] || !rooms[message.roomId][0] || !rooms[message.roomId][1]) return;
+          if(ws === rooms[message.roomId][0]){
             console.log("ice candidate senderSide")
-            recSide.send(JSON.stringify({msg:"ice-candidate",candidate:message.candidate}))
+            rooms[message.roomId][1].send(JSON.stringify({msg:"ice-candidate",candidate:message.candidate}))
           }
           else{
             console.log("ice candidate recSide")
-            senderSide.send(JSON.stringify({msg:"ice-candidate",candidate:message.candidate}))
+            rooms[message.roomId][0].send(JSON.stringify({msg:"ice-candidate",candidate:message.candidate}))
           }
        }
        else if(message.msg === "create-offer"){
         console.log("create offer")
-         if(ws !== senderSide) return
+        if (!rooms[message.roomId] || !rooms[message.roomId][1]) return
         console.log("create offer inside")
-         recSide.send(JSON.stringify({msg : "create-offer" , sdp : message.sdp}))
+        rooms[message.roomId][1].send(JSON.stringify({msg : "create-offer" , sdp : message.sdp,roomMsg:`We are here in the room number ${message.roomId}`}))
        }
 
        else if(message.msg === "create-answer"){
         console.log("create-answer")
-         if(ws !== recSide) return
+         if (!rooms[message.roomId] || !rooms[message.roomId][0]) return
          console.log("create-answer inside")
-         senderSide.send(JSON.stringify({msg : "create-answer" , sdp : message.sdp}))
+         rooms[message.roomId][0].send(JSON.stringify({msg : "create-answer" , sdp : message.sdp,roomMsg:`We are here in the room number ${message.roomId}`}))
        }
 
     })
