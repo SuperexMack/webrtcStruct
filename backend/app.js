@@ -15,7 +15,7 @@ app.use(cors({
 }))
 
 app.get("/",(req,res)=>{
-  return res.json({msg:"v1"})
+  return res.json({msg:"v2"})
 })
 
 
