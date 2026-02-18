@@ -18,7 +18,7 @@ export default function(){
 
     useEffect(()=>{
       
-      socket.current = new WebSocket("ws://192.168.43.130:9000")
+      socket.current = new WebSocket("wss://webrtcstruct.onrender.com")
       
       socket.current.onopen = (()=>{
         socket.current?.send(JSON.stringify({
