@@ -16,7 +16,7 @@ export default function(){
     useEffect(()=>{
       
         
-          socket.current = new WebSocket("ws://localhost:9000")
+          socket.current = new WebSocket("ws://192.168.43.130:9000")
           socket.current.onopen = (()=>{
             socket.current?.send(JSON.stringify({
                 msg:"REMOTE",
@@ -24,7 +24,11 @@ export default function(){
             }))
         })
 
-        pc.current = new RTCPeerConnection()
+        pc.current = new RTCPeerConnection({
+          iceServers:[
+            {urls:"stun:stun.l.google.com:19302" }
+          ]
+        })
 
       
         console.log("Video found")

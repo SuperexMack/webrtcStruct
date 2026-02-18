@@ -1,8 +1,22 @@
 import { WebSocketServer } from "ws";
+import express from "express"
+import cors from "cors"
+const app = express()
 const PORT = 9000
+const httpserver = app.listen(PORT)
 
 
-const wss = new WebSocketServer({port:PORT})
+const wss = new WebSocketServer({server:httpserver})
+
+app.use(cors({
+   origin:"*",
+   methods: ["GET", "POST"],
+   allowedHeaders : ["Content-Type","Authorization"]
+}))
+
+app.get("/",(req,res)=>{
+  return res.json({msg:"v1"})
+})
 
 
 let rooms = {}

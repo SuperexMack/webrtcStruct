@@ -16,7 +16,7 @@ export default function Home() {
 
     useEffect(()=>{
 
-    socket.current = new WebSocket("ws://localhost:9000")
+    socket.current = new WebSocket("ws://192.168.43.130:9000")
 
     if(socket.current){
         socket.current.onopen = ()=>{
@@ -63,10 +63,10 @@ export default function Home() {
  return(
   <>
   <div className="flex w-full h-screen items-center justify-center flex-col space-y-6">
-    <input onChange={(e)=>setRoomName(e.target.value)} className="border-2 border-white rounded-lg p-2"></input>
-    <button onClick={generateString} className="text-white border-2 border-white p-3 font-[20px]">Create key</button>
-    <button onClick={CreateRoom} className="text-white border-2 border-white p-3 font-[20px]">Create Room</button>
-    <button onClick={JoinRoom} className="text-white border-2 border-white p-3 font-[20px]">Join Room</button>
+    <input onChange={(e)=>setRoomName(e.target.value)} className="border-2 border-black rounded-lg p-2"></input>
+    <button onClick={generateString} className=" border-2 border-red-500 p-3 font-[20px]">Create key</button>
+    <button onClick={CreateRoom} className=" border-2 border-black p-3 font-[20px]">Create Room</button>
+    <button onClick={JoinRoom} className=" border-2 border-black p-3 font-[20px]">Join Room</button>
     <h1>Key is : {myKey}</h1>
     </div>
   </>
