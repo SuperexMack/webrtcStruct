@@ -9,7 +9,7 @@ const httpserver = app.listen(PORT)
 const wss = new WebSocketServer({server:httpserver})
 
 app.use(cors({
-   origin:"*",
+   origin:"https://webrtc-struct.vercel.app",
    methods: ["GET", "POST"],
    allowedHeaders : ["Content-Type","Authorization"]
 }))
